@@ -63,13 +63,13 @@ Ubuntu 14.04 64 bit
 hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.230 ssh
 ``` 
 
-## Các bước cài với mô hình Client Server
-### Trên Server
-
+# Các bước cài với mô hình Client Server
+## Trên Server
+### Cài `OSSEC`
 - Tải các gói bổ trợ
 
     ```sh
-    apt-get -y install build-essential make libssl-dev git
+    apt-get -y install build-essential make libssl-dev git unzip
     ```
 
     ```sh
@@ -137,4 +137,15 @@ mysql -u root -p ossec < src/os_dbd/mysql.schema
     /var/ossec/bin/ossec-control restart 
     ```
     
-    
+### Cài đặt OSSEC WEB UI
+
+    ```sh
+    cd /var/www/html/
+    wget https://github.com/ossec/ossec-wui/archive/master.zip
+    unzip master.zip
+    mv ossec-wui-master/ ossec/
+    mkdir ossec/tmp/
+    chown www-data: -R ossec/
+    chmod 666 /var/www/html/ossec/tmp/
+    usermod -a -G ossec www-data
+    ```

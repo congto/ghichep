@@ -1,8 +1,9 @@
-## Ghi chép về OSSEC
+# Ghi chép về OSSEC
 
+# Mô hình standalone
 ## Môi trường thực hiện
 
-Ubuntu 14.04 64 bit
+- Ubuntu 14.04 64 bit
 
 ##  Update OS  và cài đặt gói bổ trợ
 
@@ -15,8 +16,12 @@ Ubuntu 14.04 64 bit
 - Cài đặt gói bổ trợ
 
     ```sh
-   apt-get -y install mysql-server libmysqlclient-dev mysql-client apache2 php5 libapache2-mod-php5 php5-mysql php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
-
+    apt-get -y install build-essential make libssl-dev git unzip
+    
+    apt-get -y install mysql-server libmysqlclient-dev mysql-client \
+        apache2 php5 libapache2-mod-php5 php5-mysql php5-curl php5-gd \
+        php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache \
+        php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
     ```
 
 ## Cài đăt OSSEC
@@ -66,6 +71,13 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
 # Các bước cài với mô hình Client Server
 ## Trên Server
 ### Cài `OSSEC`
+
+- Update OS 
+
+    ```sh
+    apt-get update -y 
+    ```
+    
 - Tải các gói bổ trợ
 
     ```sh
@@ -73,7 +85,10 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
     ```
 
     ```sh
-    apt-get -y install mysql-server libmysqlclient-dev mysql-client apache2 php5 libapache2-mod-php5 php5-mysql php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
+    apt-get -y install mysql-server libmysqlclient-dev mysql-client \
+        apache2 php5 libapache2-mod-php5 php5-mysql php5-curl php5-gd \
+        php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache \
+        php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
     ```
 
 - Tải và giải nén `OSSEC`
@@ -112,9 +127,12 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
     flush privileges;
     exit
     ```
-
-mysql -u root -p ossec < src/os_dbd/mysql.schema
-
+    
+- Tạo schema cho ossec
+    
+    ```sh
+    mysql -u root -p ossec < src/os_dbd/mysql.schema
+    ```
 
 - Khai bao trong /var/ossec/etc/ossec.conf
 

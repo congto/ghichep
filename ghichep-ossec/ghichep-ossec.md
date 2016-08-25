@@ -122,7 +122,7 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
     - Chọn: en
     
         ```sh
-        root@cong-u14-srv1:~/ossec-hids-2.8.3# ./install.sh
+        root@OSSEC-Server:~/ossec-hids-2.8.3# ./install.sh
 
           ** Para instalação em português, escolha [br].
           ** 要使用中文进行安装, 请选择 [cn].
@@ -152,9 +152,9 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
         If you have any questions or comments, please send an e-mail
         to dcid@ossec.net (or daniel.cid@gmail.com).
 
-        - System: Linux cong-u14-srv1 3.19.0-66-generic
+        - System: Linux OSSEC-Server 3.19.0-66-generic
         - User: root
-        - Host: cong-u14-srv1
+        - Host: OSSEC-Server
 
 
         -- Press ENTER to continue or Ctrl-C to abort. --
@@ -278,7 +278,7 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
     - Kết quả
     
         ```sh
-        root@cong-u14-srv1:~# /var/ossec/bin/ossec-control status
+        root@OSSEC-Server:~# /var/ossec/bin/ossec-control status
         ossec-monitord is running...
         ossec-logcollector is running...
         ossec-remoted not running...
@@ -354,6 +354,342 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
 ![ossec-web1](./images/ossec-web1.png)    
     
 ## Cài đặt OSSEC Agent cho các Client
-### Phía Server
 
 ### Phía Client
+
+- Cài đặt các gói bổ trợ
+
+    ```sh
+    apt-get -y install build-essential make libssl-dev git unzip
+    ```
+    
+- Tải `OSSEC` và cài đặt
+
+    ```sh    
+    wget https://bintray.com/artifact/download/ossec/ossec-hids/ossec-hids-2.8.3.tar.gz
+    tar -xzf ossec-hids-2.8.3.tar.gz
+    cd ossec-hids-2.8.3
+    ./install.sh 
+    ```
+    
+- Khai báo các lựa chọn sau:
+
+    - Lựa chọn ngôn ngữ: `en`
+ 
+        ```sh
+        root@OSSEC-Client:~/ossec-hids-2.8.3#     ./install.sh
+
+        ** Para instalação em português, escolha [br].
+        ** 要使用中文进行安装, 请选择 [cn].
+        ** Fur eine deutsche Installation wohlen Sie [de].
+        ** Για εγκατάσταση στα Ελληνικά, επιλέξτε [el].
+        ** For installation in English, choose [en].
+        ** Para instalar en Español , eliga [es].
+        ** Pour une installation en français, choisissez [fr]
+        ** A Magyar nyelvű telepítéshez válassza [hu].
+        ** Per l'installazione in Italiano, scegli [it].
+        ** 日本語でインストールします．選択して下さい．[jp].
+        ** Voor installatie in het Nederlands, kies [nl].
+        ** Aby instalować w języku Polskim, wybierz [pl].
+        ** Для инструкций по установке на русском ,введите [ru].
+        ** Za instalaciju na srpskom, izaberi [sr].
+        ** Türkçe kurulum için seçin [tr].
+        (en/br/cn/de/el/es/fr/hu/it/jp/nl/pl/ru/sr/tr) [en]:
+        ```
+        
+    - Nhấn `ENTER` để tiếp tục
+    
+        ```sh
+         You are about to start the installation process of the OSSEC HIDS.
+         You must have a C compiler pre-installed in your system.
+         If you have any questions or comments, please send an e-mail
+         to dcid@ossec.net (or daniel.cid@gmail.com).
+
+          - System: Linux OSSEC-Client 3.19.0-59-generic
+          - User: root
+          - Host: OSSEC-Client
+
+
+          -- Press ENTER to continue or Ctrl-C to abort. --
+        ```
+            
+    - Lựa chọn chế độ `agent`
+    
+        ```sh
+        1- What kind of installation do you want (server, agent, local, hybrid or help)? agent
+        ```
+
+    - Nhấn `ENTER` để tiếp tục (khai báo đường dẫn cài đặt)
+
+        ```sh
+        2- Setting up the installation environment.
+
+         - Choose where to install the OSSEC HIDS [/var/ossec]:
+        ```
+
+    - Khai báo địa chỉ IP của máy `OSSEC Server`
+
+        ```sh
+        3- Configuring the OSSEC HIDS.
+
+          3.1- What's the IP Address or hostname of the OSSEC HIDS server?: 172.17.77.243
+
+           - Adding Server IP 172.17.77.243
+        ```
+
+    - Nhấn `y` để tiếp tục
+
+        ```sh
+        3.2- Do you want to run the integrity check daemon? (y/n) [y]: y
+        ```
+
+    - Nhấn `y` để tiếp tục
+
+        ```sh
+        3.3- Do you want to run the rootkit detection engine? (y/n) [y]: y
+
+           - Running rootcheck (rootkit detection).
+        ```
+
+    - Nhấn `y` để tiếp tục
+
+        ```sh
+        3.4 - Do you want to enable active response? (y/n) [y]: y
+        ```
+
+    - Nhấn `ENTER` để tiếp tục
+
+        ```sh
+         3.5- Setting the configuration to analyze the following logs:
+            -- /var/log/auth.log
+            -- /var/log/syslog
+            -- /var/log/dpkg.log
+            -- /var/log/apache2/error.log (apache log)
+            -- /var/log/apache2/access.log (apache log)
+
+         - If you want to monitor any other file, just change
+           the ossec.conf and add a new localfile entry.
+           Any questions about the configuration can be answered
+           by visiting us online at http://www.ossec.net .
+
+
+           --- Press ENTER to continue ---
+        ```
+
+- OSSEC Agent bắt đầu được cài đặt
+
+- Chờ OSSEC Agent cài đặt xong, nhấn `ENTER` để hoàn tất. Sau đó chuyển sang bước khai báo Agent, lúc này cần thực hiện trên Server trước 
+
+## Khai báo Agent trên Server và Client
+### Trên Server
+
+- Khai báo để Server có thể quản lý các Agent
+
+    ```sh
+    /var/ossec/bin/manage_agents
+    ```
+
+- Kết quả của lệnh `/var/ossec/bin/manage_agents`
+
+    ```sh
+    root@OSSEC-Server:~# /var/ossec/bin/manage_agents
+
+
+    ****************************************
+    * OSSEC HIDS v2.8.3 Agent manager.     *
+    * The following options are available: *
+    ****************************************
+       (A)dd an agent (A).
+       (E)xtract key for an agent (E).
+       (L)ist already added agents (L).
+       (R)emove an agent (R).
+       (Q)uit.
+    Choose your action: A,E,L,R or Q
+    ```
+
+- Bắt đầu lựa chọn theo hướng dẫn trên màn hình
+
+    - Lựa chọn phím `A` để khai báo thêm Agent
+
+        ```sh
+        Choose your action: A,E,L,R or Q: A
+        ```
+        
+    - Khai báo tên của máy Client 
+    
+        ```sh    
+        - Adding a new agent (use '\q' to return to the main menu).
+          Please provide the following:
+           * A name for the new agent:OSSEC-Client
+        ```
+        
+        
+    - Khai báo IP của máy OSSEC-Client
+    
+        ```sh
+        * The IP Address of the new agent: 172.17.77.210
+        ```
+        
+    - Nhập ID của máy OSSEC-Client theo gợi ý
+
+        ```sh
+        An ID for the new agent[001]: 001
+        ```
+
+    - Nhập `y` để xác nhận lại các thông tin trên
+            
+        ```sh
+        Agent information:
+           ID:001
+           Name:OSSEC-Client
+           IP Address:172.17.77.210
+
+        Confirm adding it?(y/n):
+        ```
+
+    - Nhấn `E` để lấy Key của OSSEC-Client vừa khai báo ở trên
+    
+        ```sh
+        Choose your action: A,E,L,R or Q: E
+        ```
+
+    - Nhập ID hoặc tên của máy `OSSEC-Client`
+
+        ```sh
+        Available agents:
+           ID: 001, Name: OSSEC-Client, IP: 172.17.77.210
+        Provide the ID of the agent to extract the key (or '\q' to quit): 001
+        ```
+
+- Kết quả trả về, ghi lại Key hiển thị trên màn hình để khai báo trên máy OSSEC-Client
+
+    ```sh
+    Agent key information for '001' is:
+    MDAxIGNvbnRyb2xsZXIgMTcyLjE3Lj...........................
+    ```
+
+- Nhấn `Q` để thoát và chuyển sang máy `OSSEC-Client`
+
+        ```sh
+        ****************************************
+        * OSSEC HIDS v2.8.3 Agent manager.     *
+        * The following options are available: *
+        ****************************************
+           (A)dd an agent (A).
+           (E)xtract key for an agent (E).
+           (L)ist already added agents (L).
+           (R)emove an agent (R).
+           (Q)uit.
+        Choose your action: A,E,L,R or Q: Q
+        ```
+
+
+
+
+    
+    
+    
+### Trên Client
+
+- Thực hiện lệnh `/var/ossec/bin/manage_agents` để khai báo Agent
+
+    ```sh
+    /var/ossec/bin/manage_agents
+    ```
+
+- Lựa chọn `I`
+
+    ```sh
+    ****************************************
+    * OSSEC HIDS v2.8.3 Agent manager.     *
+    * The following options are available: *
+    ****************************************
+       (I)mport key from the server (I).
+       (Q)uit.
+    Choose your action: I or Q: I
+    ```
+
+- Paste dòng key ở bước khai báo trên OSSEC-Server
+        
+    ```sh
+    * Provide the Key generated by the server.
+    * The best approach is to cut and paste it.
+    *** OBS: Do not include spaces or new lines.
+
+    Paste it here (or '\q' to quit): MDAxIGNvbnRyb2xsZXIgMTcyLjE3Ljc3Lj..............
+    ````
+
+- Nhấn `y` để xác nhận lại
+
+    ```sh
+    Agent information:
+       ID:001
+       Name:OSSEC-Client
+       IP Address:172.17.77.210
+
+    Confirm adding it?(y/n): y
+    ```
+
+- Nhấn `Q` để thoát
+
+    ```sh
+    Added.
+    ** Press ENTER to return to the main menu.
+
+    ****************************************
+    * OSSEC HIDS v2.8.3 Agent manager.     *
+    * The following options are available: *
+    ****************************************
+       (I)mport key from the server (I).
+       (Q)uit.
+    Choose your action: I or Q: Q
+    ```
+
+- 
+
+ 
+
+- Kiểm tra trạng thái của OSSEC Agent sau khi cài đặt xong bằng lệnh `/var/ossec/bin/ossec-control status`
+
+    ```sh
+    root@OSSEC-Client:~/ossec-hids-2.8.3# /var/ossec/bin/ossec-control status
+    ossec-logcollector not running...
+    ossec-syscheckd not running...
+    ossec-agentd not running...
+    ossec-execd not running...
+    root@OSSEC-Client:~/ossec-hids-2.8.3#
+    ```
+
+- Khởi động OSSEC Agent
+
+    ```sh
+    /var/ossec/bin/ossec-control start
+    ```
+
+- Kiểm tra trạng thái của OSSEC Agent bằng lệnh 
+    
+    ```
+    /var/ossec/bin/ossec-control status
+    ```
+    
+    - Kết quả
+
+        ```sh
+        root@controller:~/ossec-hids-2.8.3# /var/ossec/bin/ossec-control status
+        ossec-logcollector is running...
+        ossec-syscheckd is running...
+        ossec-agentd is running...
+        ossec-execd is running...
+        ```
+
+- Khởi động lại OSSEC trên cả `OSSEC-Server` và `OSSEC-Client`
+
+- Thử ssh sai vào máy client và Kiểm tra OSSEC WEB trên server sẽ thấy bản tin báo SSH sai.
+
+![](../images/ossec-web2.png)
+
+
+
+
+
+

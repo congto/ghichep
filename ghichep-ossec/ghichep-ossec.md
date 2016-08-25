@@ -4,6 +4,7 @@
 ## Môi trường thực hiện
 
 - Ubuntu 14.04 64 bit
+- ossec-hids-2.8.3.tar.gz
 
 ##  Update OS  và cài đặt gói bổ trợ
 
@@ -23,6 +24,8 @@
         php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache \
         php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
     ```
+    
+    - Trong quá trình cài cần nhập mật khẩu cho `MySQL`, trong hướng dẫn này tôi sử dụng mật khẩu là `PTCC@!2o015`
 
 ## Cài đăt OSSEC
 
@@ -91,6 +94,8 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
         php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
     ```
 
+    - Trong quá trình cài cần nhập mật khẩu cho `MySQL`, trong hướng dẫn này tôi sử dụng mật khẩu là `PTCC@!2o015`
+
 - Tải và giải nén `OSSEC`
 
     ```sh    
@@ -98,14 +103,14 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
     tar -xzf ossec-hids-2.8.3.tar.gz
     cd ossec-hids-2.8.3
     ```
-- Kích hoạt để `OSSEC` sử dụng MySQL
+- Kích hoạt để `OSSEC` sử dụng DB MySQL, mặc định sẽ không có DB Postgresql, bỏ qua màn hình thông báo về Postgresql
 
     ```sh
     cd src
     make setdb
     ```
 
-- Cài đặt
+- Cài đặt `OSSEC`
 
     ```sh
     cd  ../
@@ -157,66 +162,66 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
 
     - Chọn: `server`
     
-    ```sh
-    1- What kind of installation do you want (server, agent, local, hybrid or help)? server
-    ```
+        ```sh
+        1- What kind of installation do you want (server, agent, local, hybrid or help)? server
+        ```
     
     - Ấn `Enter` (để mặc định)
     
-    ```sh
-    2- Setting up the installation environment.
+        ```sh
+        2- Setting up the installation environment.
 
-    - Choose where to install the OSSEC HIDS [/var/ossec]:
-    ```
+        - Choose where to install the OSSEC HIDS [/var/ossec]:
+        ```
     
     - Chọn `y`
     
-    ```sh
-    3- Configuring the OSSEC HIDS.
+        ```sh
+        3- Configuring the OSSEC HIDS.
 
-        3.1- Do you want e-mail notification? (y/n) [y]:
-    ```
+            3.1- Do you want e-mail notification? (y/n) [y]:
+        ```
     
     - Nhập email để ossec gửi thông báo tới
     
-    ```sh
-    3.1- Do you want e-mail notification? (y/n) [y]: y
-        - What's your e-mail address? tcvn1985@gmail.com
-    ```
+        ```sh
+        3.1- Do you want e-mail notification? (y/n) [y]: y
+            - What's your e-mail address? tcvn1985@gmail.com
+        ```
     
     - Chọn `n` và gõ `localhost` (sử dụng chính máy này gửi mail đi)
     
-    ```sh
-    - We found your SMTP server as: alt3.gmail-smtp-in.l.google.com.
-    - Do you want to use it? (y/n) [y]: n
+        ```sh
+        - We found your SMTP server as: alt3.gmail-smtp-in.l.google.com.
+        - Do you want to use it? (y/n) [y]: n
 
-    - What's your SMTP server ip/host? localhost
-    ```
+        - What's your SMTP server ip/host? localhost
+        ```
     
     - Chọn `y`
     
-    ```sh
-    3.2- Do you want to run the integrity check daemon? (y/n) [y]: y
-    ```
+        ```sh
+        3.2- Do you want to run the integrity check daemon? (y/n) [y]: y
+        ```
     
     - Chọn `y`
     
-    ```sh
-    3.3- Do you want to run the rootkit detection engine? (y/n) [y]: y
-    ```
+        ```sh
+        3.3- Do you want to run the rootkit detection engine? (y/n) [y]: y
+        ```
    
     - Chọn `y`
 
-    ```sh
-    3.4- Active response allows you to execute a specific
-           command based on the events received. For example,
-           you can block an IP address or disable access for
-           a specific user.
-           More information at:
-           http://www.ossec.net/en/manual.html#active-response
+        ```sh
+        3.4- Active response allows you to execute a specific
+               command based on the events received. For example,
+               you can block an IP address or disable access for
+               a specific user.
+               More information at:
+               http://www.ossec.net/en/manual.html#active-response
 
-       - Do you want to enable active response? (y/n) [y]:
-    ```
+           - Do you want to enable active response? (y/n) [y]:
+        ```
     
     - Chọn `y`
     
@@ -224,18 +229,18 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
         - Do you want to enable the firewall-drop response? (y/n) [y]: y
         ```
         
-    - Chọn `y` để khai báo thêm IP
+    - Chọn `y` để khai báo thêm IP vào danh sách IP white list
     
-    ```sh
-    - Do you want to add more IPs to the white list? (y/n)? [n]: y
-       - IPs (space separated): 172.16.69.1
-    ```
-    
+        ```sh
+        - Do you want to add more IPs to the white list? (y/n)? [n]: y
+           - IPs (space separated): 172.16.69.1
+        ```
+        
     - Chọn `y`
     
-    ```sh
-    3.5- Do you want to enable remote syslog (port 514 udp)? (y/n) [y]: y
-    ```
+        ```sh
+        3.5- Do you want to enable remote syslog (port 514 udp)? (y/n) [y]: y
+        ```
     
     - Chọn `ENTER`
     
@@ -280,7 +285,7 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
     mysql -u root -p ossec < src/os_dbd/mysql.schema
     ```
 
-- Khai bao trong /var/ossec/etc/ossec.conf
+- Khai bao trong `/var/ossec/etc/ossec.conf`, dòng khai báo này nằm trong cặp thẻ `<ossec_config>` và `</ossec_config>`
 
     ```sh
     <ossec_config>
@@ -313,3 +318,8 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
     chmod 666 /var/www/html/ossec/tmp/
     usermod -a -G ossec www-data
     ```
+    
+## Cài đặt OSSEC Agent cho các Client
+### Phía Server
+
+### Phía Client

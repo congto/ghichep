@@ -268,24 +268,52 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
     ```sh
     /var/ossec/bin/ossec-control start
     ```
+    
+- Kiểm tra trạng thái của `ossec`
+
+    ```sh
+    /var/ossec/bin/ossec-control status
+    ```
+    
+    - Kết quả
+    
+        ```sh
+        root@cong-u14-srv1:~# /var/ossec/bin/ossec-control status
+        ossec-monitord is running...
+        ossec-logcollector is running...
+        ossec-remoted not running...
+        ossec-syscheckd is running...
+        ossec-analysisd is running...
+        ossec-maild is running...
+        ossec-execd is running...
+        ```    
 
 - Tạo DB cho `OSSEC`
 
     ```sh
-    mysql -u root -p
+    mysql -u'root' -p'PTCC@!2o015'
     create database ossec;
     grant all privileges on ossec.* to ossecuser@localhost identified by 'PTCC@!2o015';
     flush privileges;
     exit
     ```
     
-- Tạo schema cho ossec
+- Tạo schema cho ossec (import các bảng cho database `ossec` vừa tạo ở trên)
     
     ```sh
-    mysql -u root -p ossec < src/os_dbd/mysql.schema
+    cd ossec-hids-2.8.3/
+    mysql -u root -p ossec  < src/os_dbd/mysql.schema
     ```
+    
+    - Nhập mật khẩu cho tài khoản `root` của database
 
-- Khai bao trong `/var/ossec/etc/ossec.conf`, dòng khai báo này nằm trong cặp thẻ `<ossec_config>` và `</ossec_config>`
+- Sao lưu file cấu hình của `ossec`
+
+    ```sh
+    cp /var/ossec/etc/ossec.conf /var/ossec/etc/ossec.conf.orig
+    ```
+    
+- Khai bao trong `/var/ossec/etc/ossec.conf`, dòng khai báo này nằm trong cặp thẻ `<ossec_config>` và `</ossec_config>`. Thường chèn vào cuối file, trước thẻ `</ossec_config>`
 
     ```sh
     <ossec_config>
@@ -318,6 +346,9 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
     chmod 666 /var/www/html/ossec/tmp/
     usermod -a -G ossec www-data
     ```
+    
+- Sau khi cài đặt xong, truy cập vào web với link: `http://dia_chi_ip_may_chu/ossec`
+![ossec-web1](/images/ossec-web1.png)    
     
 ## Cài đặt OSSEC Agent cho các Client
 ### Phía Server

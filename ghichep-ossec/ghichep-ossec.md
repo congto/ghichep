@@ -334,7 +334,9 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
     /var/ossec/bin/ossec-control restart 
     ```
     
-### Cài đặt OSSEC WEB UI
+### Cài đặt OSSEC WEB
+
+- Tải  và cài đặt OSSEC WEB
 
     ```sh
     cd /var/www/html/
@@ -348,7 +350,8 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
     ```
     
 - Sau khi cài đặt xong, truy cập vào web với link: `http://dia_chi_ip_may_chu/ossec`
-![ossec-web1](/images/ossec-web1.png)    
+
+![ossec-web1](./images/ossec-web1.png)    
     
 ## Cài đặt OSSEC Agent cho các Client
 ### Phía Server

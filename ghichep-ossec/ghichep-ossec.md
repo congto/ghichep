@@ -114,6 +114,152 @@ hydra -t 128 -l user_name -V -x '4:4:aA1"@#$!()=`~?><;:%^&*_-+/,.\ ' 172.16.69.2
     
 - Lựa chọn các tùy chọn sau
 
+    - Chọn: en
+    
+        ```sh
+        root@cong-u14-srv1:~/ossec-hids-2.8.3# ./install.sh
+
+          ** Para instalação em português, escolha [br].
+          ** 要使用中文进行安装, 请选择 [cn].
+          ** Fur eine deutsche Installation wohlen Sie [de].
+          ** Για εγκατάσταση στα Ελληνικά, επιλέξτε [el].
+          ** For installation in English, choose [en].
+          ** Para instalar en Español , eliga [es].
+          ** Pour une installation en français, choisissez [fr]
+          ** A Magyar nyelvű telepítéshez válassza [hu].
+          ** Per l'installazione in Italiano, scegli [it].
+          ** 日本語でインストールします．選択して下さい．[jp].
+          ** Voor installatie in het Nederlands, kies [nl].
+          ** Aby instalować w języku Polskim, wybierz [pl].
+          ** Для инструкций по установке на русском ,введите [ru].
+          ** Za instalaciju na srpskom, izaberi [sr].
+          ** Türkçe kurulum için seçin [tr].
+          (en/br/cn/de/el/es/fr/hu/it/jp/nl/pl/ru/sr/tr) [en]: en
+        ```
+        
+    - Ấn `Enter`
+    
+        ```sh
+        OSSEC HIDS v2.8.3 Installation Script - http://www.ossec.net
+
+        You are about to start the installation process of the OSSEC HIDS.
+        You must have a C compiler pre-installed in your system.
+        If you have any questions or comments, please send an e-mail
+        to dcid@ossec.net (or daniel.cid@gmail.com).
+
+        - System: Linux cong-u14-srv1 3.19.0-66-generic
+        - User: root
+        - Host: cong-u14-srv1
+
+
+        -- Press ENTER to continue or Ctrl-C to abort. --
+        ```
+
+    - Chọn: `server`
+    
+    ```sh
+    1- What kind of installation do you want (server, agent, local, hybrid or help)? server
+    ```
+    
+    - Ấn `Enter` (để mặc định)
+    
+    ```sh
+    2- Setting up the installation environment.
+
+    - Choose where to install the OSSEC HIDS [/var/ossec]:
+    ```
+    
+    - Chọn `y`
+    
+    ```sh
+    3- Configuring the OSSEC HIDS.
+
+        3.1- Do you want e-mail notification? (y/n) [y]:
+    ```
+    
+    - Nhập email để ossec gửi thông báo tới
+    
+    ```sh
+    3.1- Do you want e-mail notification? (y/n) [y]: y
+        - What's your e-mail address? tcvn1985@gmail.com
+    ```
+    
+    - Chọn `n` và gõ `localhost` (sử dụng chính máy này gửi mail đi)
+    
+    ```sh
+    - We found your SMTP server as: alt3.gmail-smtp-in.l.google.com.
+    - Do you want to use it? (y/n) [y]: n
+
+    - What's your SMTP server ip/host? localhost
+    ```
+    
+    - Chọn `y`
+    
+    ```sh
+    3.2- Do you want to run the integrity check daemon? (y/n) [y]: y
+    ```
+    
+    - Chọn `y`
+    
+    ```sh
+    3.3- Do you want to run the rootkit detection engine? (y/n) [y]: y
+    ```
+   
+    - Chọn `y`
+
+    ```sh
+    3.4- Active response allows you to execute a specific
+           command based on the events received. For example,
+           you can block an IP address or disable access for
+           a specific user.
+           More information at:
+           http://www.ossec.net/en/manual.html#active-response
+
+       - Do you want to enable active response? (y/n) [y]:
+    ```
+    
+    - Chọn `y`
+    
+        ```sh
+        - Do you want to enable the firewall-drop response? (y/n) [y]: y
+        ```
+        
+    - Chọn `y` để khai báo thêm IP
+    
+    ```sh
+    - Do you want to add more IPs to the white list? (y/n)? [n]: y
+       - IPs (space separated): 172.16.69.1
+    ```
+    
+    - Chọn `y`
+    
+    ```sh
+    3.5- Do you want to enable remote syslog (port 514 udp)? (y/n) [y]: y
+    ```
+    
+    - Chọn `ENTER`
+    
+        ```sh
+        3.6- Setting the configuration to analyze the following logs:
+            -- /var/log/auth.log
+            -- /var/log/syslog
+            -- /var/log/dpkg.log
+            -- /var/log/apache2/error.log (apache log)
+            -- /var/log/apache2/access.log (apache log)
+
+         - If you want to monitor any other file, just change
+           the ossec.conf and add a new localfile entry.
+           Any questions about the configuration can be answered
+           by visiting us online at http://www.ossec.net .
+
+
+           --- Press ENTER to continue ---
+        ```
+        
+- OSSEC bắt đầu được cài đặt
+    
+- Khởi động `ossec`
+
     ```sh
     /var/ossec/bin/ossec-control start
     ```

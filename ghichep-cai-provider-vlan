@@ -1,0 +1,15 @@
+## Tren controller 
+
+ovs-vsctl add-br br-ex
+ovs-vsctl add-port br-ex eth2
+
+## Tren Compute
+
+ovs-vsctl add-br br-ex
+ovs-vsctl add-port br-ex eth2
+
+## Tren controller 
+
+neutron net-create provider-101 --shared \
+  --provider:physical_network provider --provider:network_type vlan \
+  --provider:segmentation_id 101

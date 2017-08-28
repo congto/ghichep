@@ -1,0 +1,27 @@
+virt-install \
+-n CentOS -r 2048 --vcpus 2 --os-type=linux --os-variant=rhel6 \
+--disk path=/var/lib/libvirt/images/CentOS_6.5_tienhai_062016.qcow2,format=qcow2,bus=virtio,cache=none \
+--network bridge=br0,model=virtio \
+--vnc --noautoconsole \
+--import
+ 
+
+ ## 
+virt-install \
+-n CentOS -r 2048 --vcpus 2 --os-type=linux --os-variant=rhel6 \
+--disk path=/var/lib/libvirt/images/CentOS_6.5_tienhai_062016.qcow2,format=qcow2,bus=virtio,cache=none \
+--network bridge=br0,model=virtio \
+--vnc --noautoconsole \
+--import
+
+
+
+
+virt-install \
+-n Ubuntu -r 2048 --vcpus 2 --os-type=linux --os-variant=ubuntuprecise \
+--disk path=/var/kvm/images/ubuntu.img,format=qcow2,bus=virtio,cache=none \
+-w network=default,model=virtio \
+--vnc --noautoconsole \
+-c /storage/local/iso/Ubuntu.iso
+
+

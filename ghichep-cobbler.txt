@@ -1,0 +1,47 @@
+# Ghi chép về cobbler
+
+## CENTOS 6
+
+yum -y update 
+yum -y install wget 
+
+rpm -Uhv http://download.fedora.redhat.com/pub/epel/6/i386/epel-release-6-5.noarch.rpm
+yum -y update 
+
+
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+
+service iptables stop
+chkconfig iptables off
+
+yum install cobbler cobbler-web dhcp debmirror pykickstart system-config-kickstart dhcp mod_python tftp cman -y
+
+
+
+## CENTOS 7
+
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+sudo systemctl disable firewalld
+sudo systemctl stop firewalld
+
+    
+yum -y install epel-release
+
+yum -y install cobbler cobbler-web dnsmasq syslinux pykickstart xinetd 
+
+systemctl start cobblerd ; systemctl enable cobblerd
+systemctl start httpd ; systemctl enable httpd
+
+setenforce 0
+
+init 6
+
+## Ubuntu 14.
+
+https://gist.github.com/luisbolson/1d0dc42976d2468171d0
+
+wget -qO - http://download.opensuse.org/repositories/home:/libertas-ict:/cobbler26/xUbuntu_14.04/Release.key | apt-key add -
+add-apt-repository "deb http://download.opensuse.org/repositories/home:/libertas-ict:/cobbler26/xUbuntu_14.04/ ./"
+apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y --force-yes install cobbler dhcp3-server debmirror isc-dhcp-server ipcalc tftpd tftp fence-agent
+
+

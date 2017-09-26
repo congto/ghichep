@@ -1,0 +1,140 @@
+### Ghi chep - cai dat kolla
+
+- Setup IP
+  - ens160: 192.168.20.33/24. Gateway 192.168.20.254. Su dung lam IP de truy cap vao dashboad
+  - ens256: 192.168.40.33/24. Gateway 192.168.40.254. Su dung lam provider network.
+- Setup firewall 
+
+- Tai git
+
+yum install -y git
+
+- Tai EPEL va PIP
+
+yum install -y epel-release
+yum install -y python-pip
+pip install -U pip
+yum install -y python-devel libffi-devel gcc openssl-devel byobu
+
+- Tai Ansible 
+yum install -y ansible
+pip install -U ansible
+
+- Kiem tra phien ban Ansible (Phien ban se la ansible 2.3.x.x)
+
+ansible --version
+
+
+- Cai docker 
+
+curl -sSL https://get.docker.io | bash
+
+- Phan quyen cho docker sau khi cai 
+
+sudo usermod -aG docker `whoami`
+
+
+- Khoi dong docker 
+
+systemctl daemon-reload
+
+systemctl enable docker
+
+
+- Kiem tra phien ban docker 
+
+docker --version
+
+  - Phien ban Docker la 17.07  - CE
+   
+- Dang ky docker voi systemd
+
+mkdir -p /etc/systemd/system/docker.service.d
+
+tee /etc/systemd/system/docker.service.d/kolla.conf <<-'EOF'
+[Service]
+MountFlags=shared
+EOF
+
+  
+- Restart docker 
+
+systemctl daemon-reload
+systemctl restart docker
+ 
+- Cai dat va update docker python
+
+yum install -y python-docker-py
+
+pip install -U docker-py
+  
+  
+- Cai dat NTP 
+
+yum install -y ntp
+
+- Kiem tra hoat dong cua NTP 
+
+systemctl enable ntpd.service
+systemctl start ntpd.service
+
+ntpq -p
+
+
+- Stop libvirt 
+
+systemctl stop libvirtd.service
+systemctl disable libvirtd.service
+ 
+- Cai dat kolla. Trong huong dan nay phien ban kolla la 5.0 (Tuong ung voi OpenStack Pike) 
+
+pip install kolla-ansible
+pip install kolla-ansible\==4.0.0
+
+cp -r /usr/share/kolla-ansible/etc_examples/kolla /etc/kolla/
+cp /usr/share/kolla-ansible/ansible/inventory/* .
+
+
+- Sua cac dong duoi o file /etc/kolla/globals.yml nhu sau: 
+
+enable_haproxy: "no"
+
+kolla_internal_vip_address: "192.168.20.33"
+
+network_interface: "ens192"
+
+neutron_external_interface: "ens256"
+
+
+- Tao password cho cac service. File luu password la /etc/kolla/passwords.yml
+
+kolla-genpwd
+
+- Sua lai file /etc/systemd/system/docker.service.d/kolla.conf voi noi dung nhu duoi
+
+[Service]
+MountFlags=shared
+ExecStart =
+ExecStart=/usr/bin/docker daemon
+
+- Khoi dong lai docker 
+
+systemctl daemon-reload
+systemctl restart docker
+
+ 
+- Tai cac image cho docker 
+
+kolla-ansible pull
+
+- Kiem tra cac images sau khi tai 
+
+docker images 
+
+- Khai bao cau hinh su dung qemu hoac kmv. Trong moi truong may ao thi su dung qemu 
+
+cat << EOF > /etc/kolla/config/nova/nova-compute.conf
+[libvirt]
+virt_type = qemu
+cpu_mode = none
+EOF

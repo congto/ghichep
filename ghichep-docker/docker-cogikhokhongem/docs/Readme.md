@@ -3,7 +3,7 @@
 
 ## MỤC LỤC
 
-### Phần mở đầu
+### [Phần mở đầu](../docs/00.Phan_mo_dau.md/)
 
 #### Tại sao viết tài liệu này
 
